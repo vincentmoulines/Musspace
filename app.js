@@ -10,9 +10,25 @@ var users = require('./routes/users');
 
 var app = express();
 
+const  = require("mongoose")
+mongoose.connnect("mongodb://localhost/user") =
+const session = require("express-session");
+const bcrypt= require ("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require ("user").Strategy;
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+// start a new session
+app.use(session({
+ secret: "our-passport-local-strategy-app",
+ resave: true,
+ saveUninitialized: true
+}));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -21,7 +37,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', index);
 app.use('/users', users);
 
