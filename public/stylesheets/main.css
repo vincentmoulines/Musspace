@@ -11,3 +11,13 @@ a {
   display: inline-block;
   width: 100px;
 }
+
+#logo {
+  height: 1.5em;
+  width: 8em;
+}
+
+#ytplayer {
+  width: 20em;
+  height: 15em;
+}
