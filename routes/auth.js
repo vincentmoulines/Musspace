@@ -1,41 +1,40 @@
-const express= require("express");
+const express = require("express");
 const router = express.Router();
-const User= require("models/user");
-
+const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+const passport = require("passport");
+const flash = require("connect-flash");
 
-authRoutes.get("/signup", (req, res, next) => {
- res.render("auth/signup");
-
+router.get("/signup", (req, res, next) => {
+  res.render("auth/signup", { message: req.flash("error") });
 });
 
-authRoutes.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
-    return;
-  }
-  User.findOne({ username }, "username", (err, user) => {
-    if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
-      return;
-    }
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-    const newUser = new User({
-      username,
-      password: hashPass
-    });
-    newUser.save((err) => {
-      if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
-      } else {
-        res.redirect("/");
-      }
-    });
+router.post(
+  "/signup",
+  passport.authenticate("local-signup", {
+    successRedirect: "/login",
+    failureRedirect: "/signup",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
+
+router.get("/login", (req, res, next) => {
+  res.render("auth/login", {
+    user: res.locals.user,
+    errMessage: req.flash("error")
   });
 });
+
+router.post(
+  "/login",
+  passport.authenticate("local-login", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+    failureFlash: "Wrong username or password",
+    passReqToCallback: true
+  })
+);
 
 module.exports = router;
