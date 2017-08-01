@@ -11,13 +11,17 @@
           <label for="password">Password</label>
           <input type="password" name="password" class="form-control">
         </div>
-        
-        <% if (typeof message !== "undefined") { %>
-          <div class="error-message"><%= message %></div>
+
+        <% if (errMessage) { %>
+          <div class="message"><%= errMessage %></div>
         <% } %>
         <br><br>
 
+
         <button type="submit">Login</button>
+
+
+
       </form>
     </div>
   </div>

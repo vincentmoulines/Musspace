@@ -9,6 +9,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const flash = require("connect-flash");
 
 const User = require("./models/user");
 
@@ -53,6 +54,8 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
+app.use(flash());
+
 passport.use(
   "local-signup",
   new LocalStrategy(
@@ -68,19 +71,20 @@ passport.use(
           }
 
           if (user) {
-            return next(null, false);
+            return next(null, false, {
+              message: "Username taken, Please choose another."
+            });
           } else {
             // Destructure the body
-            const { username, email, description, password } = req.body;
+            const { username, email, password } = req.body;
             const hashPass = bcrypt.hashSync(
               password,
               bcrypt.genSaltSync(8),
               null
             );
             const newUser = new User({
-              username,
               email,
-              description,
+              username,
               password: hashPass
             });
 
@@ -97,13 +101,39 @@ passport.use(
   )
 );
 
+passport.use(
+  "local-login",
+  new LocalStrategy((username, password, next) => {
+    User.findOne({ username }, (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next(null, false);
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        return next(null, false);
+      }
+      return next(null, user);
+    });
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-const indexRoutes = require("./routes/index");
+// set user and message in locals, so we can pass to views
+function setCurrents(req, res, next) {
+  res.locals.user = req.user;
+  res.locals.currentMessage = req.message;
+  next();
+}
+app.use(setCurrents);
+
 const authRoutes = require("./routes/auth");
-app.use("/", indexRoutes);
+const indexRoutes = require("./routes/index");
 app.use("/", authRoutes);
+app.use("/", indexRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
