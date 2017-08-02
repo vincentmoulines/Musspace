@@ -3,8 +3,8 @@
     <div class="col-sm-6 centered-form">
       <form action="/login" method="post">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" name="username" class="form-control">
+          <label for="email">Email</label>
+          <input type="text" name="email" class="form-control">
         </div>
 
         <div class="form-group">
@@ -12,13 +12,14 @@
           <input type="password" name="password" class="form-control">
         </div>
 
+
         <% if (errMessage) { %>
-          <div class="message"><%= errMessage %></div>
+          <div class="message-bad"><%= errMessage %></div>
         <% } %>
         <br><br>
 
 
-        <button type="submit">Login</button>
+        <button class="btn-info" type="submit">Login</button>
 
 
 

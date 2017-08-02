@@ -5,9 +5,12 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const passport = require("passport");
 const flash = require("connect-flash");
+const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
 
 router.get("/signup", (req, res, next) => {
-  res.render("auth/signup", { message: req.flash("error") });
+  res.render("auth/signup", {
+    errMessage: req.flash("error")
+  });
 });
 
 router.post(
@@ -15,15 +18,21 @@ router.post(
   passport.authenticate("local-signup", {
     successRedirect: "/login",
     failureRedirect: "/signup",
-    failureFlash: true,
-    passReqToCallback: true
+    failureFlash:
+      "An account for this email already exists. Please login or create a new account",
+    passReqToCallback: true,
+    session: false
   })
 );
 
 router.get("/login", (req, res, next) => {
+  res.locals.currentMessage = res.locals.account
+    ? "Account created succefully. Please login :)"
+    : null;
   res.render("auth/login", {
     user: res.locals.user,
-    errMessage: req.flash("error")
+    errMessage: req.flash("error"),
+    successMessage: res.locals.currentMessage
   });
 });
 
@@ -36,5 +45,10 @@ router.post(
     passReqToCallback: true
   })
 );
+
+router.get("/logoutofaccount", ensureLoggedIn("/"), (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = router;

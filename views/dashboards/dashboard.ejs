@@ -1,0 +1,34 @@
+<h1><%= message %></h1>
+
+<br><br>
+
+<p> <%= user.email + "'s " %> personalized info </p>
+
+<% list.forEach((song) => { %>
+
+<p><%= song %></p>
+
+<% }); %>
+
+<div class="arrow-up" id="plus"></div>
+<div class="circle" ></div>
+<div class="arrow-down" id="minus"></div>
+
+<script type="text/javascript">
+var counter = 0;
+
+$("#plus").click(function() {
+  counter++;
+  $("#count").text(counter);
+});
+$("#plus").click(function() {
+  $(this).hide();
+});
+$("#minus").click(function() {
+  counter--;
+  $("#count").text(counter);
+});
+$("#minus").click(function() {
+  $(this).hide();
+});
+</script>

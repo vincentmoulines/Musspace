@@ -4,13 +4,14 @@ var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
-const ensureLogin = require("connect-ensure-login");
+const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
+const Song = require("./models/song");
 const User = require("./models/user");
 
 const app = express();
@@ -59,24 +60,26 @@ app.use(flash());
 passport.use(
   "local-signup",
   new LocalStrategy(
-    { passReqToCallback: true },
-    (req, username, password, next) => {
+    {
+      passReqToCallback: true,
+      usernameField: "email"
+    },
+    (req, email, password, next) => {
       User.findOne(
         {
-          username: username
+          email
         },
         (err, user) => {
-          if (err) {
-            return next(err);
-          }
-
           if (user) {
             return next(null, false, {
-              message: "Username taken, Please choose another."
+              errMessage: "Error"
             });
+          }
+          if (err) {
+            return next(err);
           } else {
             // Destructure the body
-            const { username, email, password } = req.body;
+            const { email, password, role } = req.body;
             const hashPass = bcrypt.hashSync(
               password,
               bcrypt.genSaltSync(8),
@@ -84,8 +87,8 @@ passport.use(
             );
             const newUser = new User({
               email,
-              username,
-              password: hashPass
+              password: hashPass,
+              role
             });
 
             newUser.save(err => {
@@ -103,8 +106,8 @@ passport.use(
 
 passport.use(
   "local-login",
-  new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, user) => {
+  new LocalStrategy({ usernameField: "email" }, (email, password, next) => {
+    User.findOne({ email }, (err, user) => {
       if (err) {
         return next(err);
       }
@@ -130,10 +133,12 @@ function setCurrents(req, res, next) {
 }
 app.use(setCurrents);
 
-const authRoutes = require("./routes/auth");
 const indexRoutes = require("./routes/index");
-app.use("/", authRoutes);
+const authRoutes = require("./routes/auth");
+const actionRoutes = require("./routes/actions");
 app.use("/", indexRoutes);
+app.use("/", authRoutes);
+app.use("/actions", actionRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

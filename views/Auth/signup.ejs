@@ -1,17 +1,25 @@
-<h2>Signup</h2>
-
+<h2>Join the community!</h2>
+<br>
 <form action="/signup" method="POST" id="form-container">
-  <label for="email">Email</label>
-  <input id="email" type="email" name="email" placeholder="Your email">
+  <label for="email">Email &#8195;&#8195;&#8195;</label>
+  <input id="email" type="text"; name="email" placeholder="Your email">
   <br><br>
-  <label for="username">Username</label>
-  <input id="username" type="text" name="username" placeholder="Your username">
-  <br><br>
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" placeholder="Your password">
-  <br><br>
+  <label for="password">Password &#8194;&#8194;</label>
+  <input id="password" type="password" name="password" placeholder="Choose a password">
+  <br> <br><br>
+  <label>Role in community &#8195;</label>
+  <label class="radio-inline"><input type="radio" name="role" value="artist">Artist</label>
+  <label class="radio-inline"><input type="radio" name="role" value="lover">Music Lover</label>
+  <label class="radio-inline"><input type="radio" name="role" value="producer">Producer</label>
 
-  <button>Create account</button>
+  <br><br><br>
+
+  <button class="btn-info">Create account</button>
+  <br><br>
+  <% if (errMessage) { %>
+    <div class="message-bad"><%= errMessage %></div>
+  <% } %>
+  <br>
   <p class="account-message">
     Do you already have an account?
     <a href="/login">Login</a>
