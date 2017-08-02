@@ -91,12 +91,16 @@ passport.use(
               role
             });
 
-            newUser.save(err => {
-              if (err) {
-                next(err);
-              }
-              return next(null, newUser);
-            });
+            if (!newUser.role) {
+              return next(null, false);
+            } else {
+              newUser.save(err => {
+                if (err) {
+                  next(err);
+                }
+                return next(null, newUser);
+              });
+            }
           }
         }
       );
@@ -133,11 +137,11 @@ function setCurrents(req, res, next) {
 }
 app.use(setCurrents);
 
-const indexRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
+const indexRoutes = require("./routes/index");
 const actionRoutes = require("./routes/actions");
-app.use("/", indexRoutes);
 app.use("/", authRoutes);
+app.use("/", indexRoutes);
 app.use("/actions", actionRoutes);
 
 // catch 404 and forward to error handler

@@ -18,8 +18,7 @@ router.post(
   passport.authenticate("local-signup", {
     successRedirect: "/login",
     failureRedirect: "/signup",
-    failureFlash:
-      "An account for this email already exists. Please login or create a new account",
+    failureFlash: "An error occured. Please make sure all fields are filled",
     passReqToCallback: true,
     session: false
   })
