@@ -1,6 +1,10 @@
 body {
   padding: 50px;
   font: 1.3vw "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: black;
+  background-image: url('http://www.gifimagesdownload.com/wp-content/uploads/2016/02/cool-background-gif-441.gif');
+  background-image: url("/images/logo.png");
+  background-image: url("/images/background.gif");
 }
 
 a {
@@ -13,22 +17,24 @@ a {
 }
 
 #logo {
-  height: 1.5em;
-  width: 8em;
-
+  height: 5em;
+  width: 10em;
+  padding-bottom: 35px;
+  top: 0;
 }
-<img src="http://imgur.com/gallery/dFBFBmk" alt="logo">
 
-#ytplayer {
+.ytplayer {
   width: 20em;
   height: 15em;
 }
 
 #left-side {
-  border-right: 1px dotted black;
 }
 
 #right-side {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
 }
 
 #email,
@@ -69,6 +75,13 @@ a {
 
   border-top: 10px solid black;
 }
+
+#login-container {
+}
+
+#signup-container {
+}
+background-color: rgba(142, 158, 184, 0.71);
 
 * {
 }

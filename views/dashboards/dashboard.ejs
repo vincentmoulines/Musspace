@@ -2,12 +2,16 @@
 
 <br><br>
 
-<p> <%= user.email + "'s " %> personalized info </p>
+<h2>This Moment's Billboard</h2>
 
-<% list.forEach((song) => { %>
 
-<p><%= song %></p>
-
+<% list.forEach((song) => {  %>
+  <h4><%= song.title %></h4>
+  <% let embedUrl = "http://www.youtube.com/embed/" + youtube_parser(song.link) %>
+  <iframe class="ytplayer" type="text/html" frameborder="0"
+              src= <%= embedUrl %> >
+  </iframe>
+  <br><br><br>
 <% }); %>
 
 <div class="arrow-up" id="plus"></div>

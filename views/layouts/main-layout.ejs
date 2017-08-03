@@ -11,7 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="/stylesheets/main.css" type="text/css" rel="stylesheet">
 
-    <title>Music App</title>
+    <title>musicafe</title>
 
   </head>
 
@@ -25,12 +25,17 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/dashboard"> <img src="/images/temp-logo.png" class="img-responsive" alt="logo" id="logo"></a>
+            <ul class="nav navbar-nav">
+              <li>
+            <a class="navbar-brand" href="/dashboard"> <img src="/images/logo.png" class="img-responsive"
+               alt="logo" id="logo"></a>
+               </li>
+            </ul>
           </div>
           <div class="collapse navbar-collapse" id="myNavbar">
             <% if(user && user.role === "artist") { %>
             <ul class="nav navbar-nav">
-              <li> <a href="actions/new">Upload Music</a> </li>
+              <li> <a href="/actions/new">Upload Music</a> </li>
             </ul>
             <%  } %>
 

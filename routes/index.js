@@ -13,13 +13,20 @@ router.get("/", (req, res, next) => {
   });
 });
 
+const youtube_parser = function(url) {
+  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  var match = url.match(regExp);
+  return match && match[7].length == 11 ? match[7] : false;
+};
+
 router.get("/dashboard", ensureLoggedIn("/"), (req, res, next) => {
   res.locals.currentMessage = "Welcome, " + res.locals.user.email + " !";
   Song.find({}).sort("-score").exec().then(list => {
     res.render("dashboards/dashboard", {
       user: res.locals.user,
       message: res.locals.currentMessage,
-      list
+      list,
+      youtube_parser
     });
   });
 });

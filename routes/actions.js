@@ -1,5 +1,6 @@
 const express = require("express");
 const Song = require("../models/song");
+const User = require("../models/user");
 //const TYPES = require("../models/song-types");
 const router = express.Router();
 const passport = require("passport");
@@ -14,15 +15,16 @@ router.get("/new", ensureLoggedIn(), (req, res) => {
   res.render("actions/new-music", { types: TYPES });
 });
 
-router.post("/new", (req, res) => {
+router.post("/new", (req, res, next) => {
   const { link, title } = req.body;
   const authorID = req.user._id;
-  const newSong = new Song({ url: link, title, author: authorID });
+  const newSong = new Song({ link, title, author: authorID });
   newSong.save((err, song) => {
     if (err) {
-      return err;
+      next(err);
+    } else {
+      res.redirect("/dashboard");
     }
-    res.redirect("/");
   });
 });
 
