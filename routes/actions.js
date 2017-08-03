@@ -30,20 +30,26 @@ router.post("/new", (req, res, next) => {
 
 const vote = function(up, target) {
   if (up) {
+    console.log("up");
     Song.findOneAndUpdate(
       { _id: ObjectId(target) },
       { $inc: { score: 1 } },
-      options,
-      next()
+      err => {
+        if (err) {
+          console.log("err in cb");
+        }
+      }
     );
   } else {
     Song.findOneAndUpdate(
       { _id: ObjectId(target) },
       { $inc: { score: -1 } },
-      options,
-      next()
+      () => {
+        next();
+      }
     );
   }
+  next();
 };
 
 router.post("/vote", (req, res, next) => {
@@ -52,8 +58,31 @@ router.post("/vote", (req, res, next) => {
   console.log(up, target);
   console.log(vote);
   vote(up, target);
-  next();
-  //res.redirect("/dashboard");
+  if (up) {
+    console.log("up");
+    Song.updateOne({ _id: ObjectId(target) }, { $inc: { score: 1 } }, err => {
+      console.log("entered cb");
+      if (err) {
+        console.log("err in cb");
+      } else {
+        res.json("200");
+      }
+    });
+  } else {
+    console.log("down");
+    Song.findOneAndUpdate(
+      { _id: ObjectId(target) },
+      { $inc: { score: -1 } },
+      err => {
+        if (err) {
+          console.log("err in cb");
+        } else {
+          res.redirect("/dashboard");
+        }
+      }
+    );
+  }
+  console.log("after");
 });
 
 module.exports = router;
