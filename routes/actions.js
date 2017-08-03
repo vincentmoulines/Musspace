@@ -28,4 +28,32 @@ router.post("/new", (req, res, next) => {
   });
 });
 
+const vote = function(up, target) {
+  if (up) {
+    Song.findOneAndUpdate(
+      { _id: ObjectId(target) },
+      { $inc: { score: 1 } },
+      options,
+      next()
+    );
+  } else {
+    Song.findOneAndUpdate(
+      { _id: ObjectId(target) },
+      { $inc: { score: -1 } },
+      options,
+      next()
+    );
+  }
+};
+
+router.post("/vote", (req, res, next) => {
+  console.log("found me");
+  const { target, up } = req.body;
+  console.log(up, target);
+  console.log(vote);
+  vote(up, target);
+  next();
+  //res.redirect("/dashboard");
+});
+
 module.exports = router;

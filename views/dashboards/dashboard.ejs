@@ -11,28 +11,40 @@
   <iframe class="ytplayer" type="text/html" frameborder="0"
               src= <%= embedUrl %> >
   </iframe>
+  <br>
+  <div id=<%= song._id %>>
+    <div class="arrow-up plus"></div>
+    <div class="circle" ></div>
+    <div class="arrow-down minus"></div>
+  </div>
+  <p><%= song.score %></p>
   <br><br><br>
 <% }); %>
 
-<div class="arrow-up" id="plus"></div>
-<div class="circle" ></div>
-<div class="arrow-down" id="minus"></div>
 
 <script type="text/javascript">
-var counter = 0;
-
-$("#plus").click(function() {
-  counter++;
-  $("#count").text(counter);
+$(".plus").click(function() {
+  let target = $(this).parent().attr("id");
+  console.log(target);
+  $.ajax({
+    method: "POST",
+    url: "/actions/vote",
+    data: { target, up: true },
+    success: () => {
+      console.log("yay");
+    },
+    error: () => {
+      console.log("noooo");
+    }
+  });
 });
-$("#plus").click(function() {
+$(".plus").click(function() {
   $(this).hide();
 });
-$("#minus").click(function() {
-  counter--;
-  $("#count").text(counter);
+$(".minus").click(function() {
+  vote(false, $(this).parent().attr("id"));
 });
-$("#minus").click(function() {
+$(".minus").click(function() {
   $(this).hide();
 });
 </script>
