@@ -30,13 +30,17 @@ router.post("/new", (req, res, next) => {
 
 router.post("/vote", (req, res, next) => {
   const { target, up } = req.body;
-
+  const id = req.user._id;
+  const voter = id.toString();
   Song.findById(target, (err, song) => {
     if (err) {
       console.log("err");
-    } else {
+    } else if (!song.voters.includes(voter)) {
       song.score = up === "yes" ? song.score + 1 : song.score - 1;
+      song.voters.push(voter);
       song.save();
+      res.send({ currentScore: song.score });
+    } else {
       res.send({ currentScore: song.score });
     }
   });

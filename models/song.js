@@ -9,7 +9,8 @@ const songSchema = new Schema({
   length: { type: Number, default: 0 },
   link: { type: String, required: true },
   score: { type: Number, default: 0 },
-  artistName: String
+  artistName: String,
+  voters: { type: Array, default: [] }
 });
 
 module.exports = mongoose.model("song", songSchema);
