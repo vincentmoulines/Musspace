@@ -1,3 +1,4 @@
+require("dotenv").config();
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
@@ -17,7 +18,7 @@ const User = require("./models/user");
 const app = express();
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/musspace");
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
