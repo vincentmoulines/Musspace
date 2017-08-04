@@ -27,6 +27,31 @@ a {
   width: 20em;
   height: 15em;
 }
+#bilboard {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width:40em;
+   height:5em
+}
+#hello {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width:40em;
+   height:5em
+}
+#song{
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width:5em;
+  height:2em
+
+}
+
+}
+}
 
 #left-side {
 }
