@@ -20,8 +20,9 @@
     <div class="arrow-up plus"></div>
     <div class="circle" ></div>
     <div class="arrow-down minus"></div>
+    <p class="current-score"><%= song.score %></p>
   </div>
-  <p><%= song.score %></p>
+
   <br><br><br>
 <% }); %>
 
@@ -34,8 +35,8 @@ $(".plus").click(function() {
     method: "POST",
     url: "/actions/vote",
     data: { target, up: "yes" },
-    success: () => {
-      console.log("yay");
+    success: res => {
+      $(this).siblings(".current-score")[0].innerHTML = res.currentScore;
     },
     error: () => {
       console.log("noooo");
@@ -53,8 +54,7 @@ $(".minus").click(function() {
     url: "/actions/vote",
     data: { target, up: "no" },
     success: res => {
-      console.log("yay");
-      console.log(res);
+      $(this).siblings(".current-score")[0].innerHTML = res.currentScore;
     },
     error: () => {
       console.log("noooo");
