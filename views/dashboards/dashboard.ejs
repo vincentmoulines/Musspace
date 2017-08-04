@@ -1,4 +1,4 @@
-<h1><%= message %></h1>
+    <h1><%= message %></h1>
 
 <br><br>
 
@@ -39,12 +39,12 @@ $(".plus").click(function() {
   });
 });
 $(".plus").click(function() {
-  $(this).hide();
+  $(this).addClass("change");
 });
+//$(".minus").click(function() {
+  //vote(false, $(this).parent().attr("id"));
+//});
 $(".minus").click(function() {
-  vote(false, $(this).parent().attr("id"));
-});
-$(".minus").click(function() {
-  $(this).hide();
+  $(this).addClass("change");
 });
 </script>
