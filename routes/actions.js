@@ -28,61 +28,18 @@ router.post("/new", (req, res, next) => {
   });
 });
 
-const vote = function(up, target) {
-  if (up) {
-    console.log("up");
-    Song.findOneAndUpdate(
-      { _id: ObjectId(target) },
-      { $inc: { score: 1 } },
-      err => {
-        if (err) {
-          console.log("err in cb");
-        }
-      }
-    );
-  } else {
-    Song.findOneAndUpdate(
-      { _id: ObjectId(target) },
-      { $inc: { score: -1 } },
-      () => {
-        next();
-      }
-    );
-  }
-  next();
-};
-
 router.post("/vote", (req, res, next) => {
-  console.log("found me");
   const { target, up } = req.body;
-  console.log(up, target);
-  console.log(vote);
-  vote(up, target);
-  if (up) {
-    console.log("up");
-    Song.updateOne({ _id: ObjectId(target) }, { $inc: { score: 1 } }, err => {
-      console.log("entered cb");
-      if (err) {
-        console.log("err in cb");
-      } else {
-        res.json("200");
-      }
-    });
-  } else {
-    console.log("down");
-    Song.findOneAndUpdate(
-      { _id: ObjectId(target) },
-      { $inc: { score: -1 } },
-      err => {
-        if (err) {
-          console.log("err in cb");
-        } else {
-          res.redirect("/dashboard");
-        }
-      }
-    );
-  }
-  console.log("after");
+
+  Song.findById(target, (err, song) => {
+    if (err) {
+      console.log("err");
+    } else {
+      song.score = up === "yes" ? song.score + 1 : song.score - 1;
+      song.save();
+      res.send({ currentScore: song.score });
+    }
+  });
 });
 
 module.exports = router;

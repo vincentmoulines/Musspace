@@ -30,7 +30,7 @@ $(".plus").click(function() {
   $.ajax({
     method: "POST",
     url: "/actions/vote",
-    data: { target, up: true },
+    data: { target, up: "yes" },
     success: () => {
       console.log("yay");
     },
@@ -42,9 +42,23 @@ $(".plus").click(function() {
 $(".plus").click(function() {
   $(this).addClass("change");
 });
-//$(".minus").click(function() {
-//vote(false, $(this).parent().attr("id"));
-//});
+
+$(".minus").click(function() {
+  let target = $(this).parent().attr("id");
+  $.ajax({
+    method: "POST",
+    url: "/actions/vote",
+    data: { target, up: "no" },
+    success: res => {
+      console.log("yay");
+      console.log(res);
+    },
+    error: () => {
+      console.log("noooo");
+    }
+  });
+});
+
 $(".minus").click(function() {
   $(this).addClass("change");
 });
