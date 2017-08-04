@@ -1,13 +1,16 @@
-    <p><%= message %></p>
+    <p id="message"><%= message %></p>
 
 <br><br>
 
+<div id="billboard">
 <h2>This Moment's Billboard</h2>
+</div>
+
 <br><br>
 
 
 <% list.forEach((song) => {  %>
-  <h4><%= song.artistName %> - <%= song.title %></h4>
+<h4 class="song"><%= song.artistName %> - <%= song.title %></h4>
   <% let embedUrl = "http://www.youtube.com/embed/" + youtube_parser(song.link) %>
   <iframe class="ytplayer" type="text/html" frameborder="0"
               src= <%= embedUrl %> >

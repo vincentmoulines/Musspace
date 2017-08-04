@@ -84,5 +84,26 @@ a {
 }
 background-color: rgba(142, 158, 184, 0.71);
 
-* {
+#billboard {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width: 40em;
+  height: 5em;
+}
+
+.song {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width: 20em;
+  height: 2em;
+}
+
+#message {
+  background-color: rgba(142, 158, 184, 0.71);
+  color: white;
+  font-family: bodoniMT;
+  width: 40em;
+  height: 5em;
 }
