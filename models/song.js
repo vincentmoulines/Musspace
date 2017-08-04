@@ -8,7 +8,8 @@ const songSchema = new Schema({
   //category: { type: String, enum: TYPES, required: true },
   length: { type: Number, default: 0 },
   link: { type: String, required: true },
-  score: { type: Number, default: 0 }
+  score: { type: Number, default: 0 },
+  artistName: String
 });
 
 module.exports = mongoose.model("song", songSchema);

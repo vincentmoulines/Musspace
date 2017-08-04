@@ -16,9 +16,9 @@ router.get("/new", ensureLoggedIn(), (req, res) => {
 });
 
 router.post("/new", (req, res, next) => {
-  const { link, title } = req.body;
+  const { link, title, artistName } = req.body;
   const authorID = req.user._id;
-  const newSong = new Song({ link, title, author: authorID });
+  const newSong = new Song({ link, title, author: authorID, artistName });
   newSong.save((err, song) => {
     if (err) {
       next(err);

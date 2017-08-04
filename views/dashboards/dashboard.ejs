@@ -1,12 +1,13 @@
-    <h1><%= message %></h1>
+    <p><%= message %></p>
 
 <br><br>
 
 <h2>This Moment's Billboard</h2>
+<br><br>
 
 
 <% list.forEach((song) => {  %>
-  <h4><%= song.title %></h4>
+  <h4><%= song.artistName %> - <%= song.title %></h4>
   <% let embedUrl = "http://www.youtube.com/embed/" + youtube_parser(song.link) %>
   <iframe class="ytplayer" type="text/html" frameborder="0"
               src= <%= embedUrl %> >
@@ -42,7 +43,7 @@ $(".plus").click(function() {
   $(this).addClass("change");
 });
 //$(".minus").click(function() {
-  //vote(false, $(this).parent().attr("id"));
+//vote(false, $(this).parent().attr("id"));
 //});
 $(".minus").click(function() {
   $(this).addClass("change");
